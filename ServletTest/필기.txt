@@ -69,6 +69,7 @@
  	- PrinterWriter 객체 == 페이지를 제작하는 도구
  	- printXXX("페이지 태그 or 내용"); > 동적으로 페이지 제작
  	- 페이지 완성 > 브라우저에게 반환
+ 
  	
  4. 서블릿 호출
  
@@ -84,14 +85,12 @@
  
  
  
- 프로젝트 > 오른쪽 > JAVAEE tools > Generate Deployment Descriptsion stub
+ 프로젝트 > 오른쪽 > JAVAEE tools > Generate Deployment Description stub
  
  
  서블릿 > 자바를 이용해 동적페이지를 만드는.. 
  
- 
- 
- 
+
  
  
  
@@ -107,5 +106,49 @@
  톰캣 : 웹서버 + WAS 역할 둘다 다함.
  
  회사에서 보통 톰캣의 WAS + 외부 웹서버 으로 운영 
+ 
+ 
+ 
+ 데이터 주고 받기
+ - 폼(<form>) 전송 > 서버(수신)
+ 
+ - Ex03_Send.java
+ - Ex03_Receive.java
+ 
+ 
+ 
+ 
+ 
+Servlet == JSP
+- JSP는 서블릿이다.
+- Servlet > 자바 기반 > 클라이언트(문자열 취급) <자바는 html먼지 모른다.>
+- JSP > HTML 기반 + 자바 코드 > 개발자에 의해 만들어진 기술 
+
+1. Servlet
+2. JSP
+3. Servlet + JSP
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
  

@@ -35,11 +35,12 @@ public class Ex01 extends HttpServlet {
 		writer.println("<html>");
 		writer.println("<bodt>");
 		writer.println("<h1>Hello Servlet</h1>");
-		writer.println("<p>Hello!</p>");
+		writer.println("<p>Hello! HONG sss  sssss</p>");
 		writer.println("</body>");
 		writer.println("</html>");
 		
 		writer.close();
+		
 		
 		
 		//http://localhost:8090/ServletTest/ex01.do
