@@ -214,3 +214,18 @@ session $ application
 - "ex21_ok.jsp"
 - "ex21_del.jsp"
 
+톰캣 8.5 > JDK ~ 1.8
+
+
+EL + JSTL
+- 가독성 향상
+- JSP 페이지에서 자바를 사용하지 말자!!!
+
+EL , Expression Language
+- <%= %> 기능을 대신하기 위해 만들어진 언어
+- "ex22_el.jsp"
+
+JSTL
+- 액션 태그
+- 자바의 프로그래밍 구문을 태그 형태로 제공
+- "ex23_jstl.jsp
