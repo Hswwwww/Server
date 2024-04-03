@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" href="http://pinnpublic.dothome.co.kr/cdn/example-min.css">
+<script src="https://kit.fontawesome.com/afff3ca9e2.js" crossorigin="anonymous"></script>
 <style>
 
 </style>
@@ -14,7 +15,7 @@
 <!- ->
 
 <h1>버튼 만들기</h1>
-
+<form method="POST" action ="ex12_ok2.jsp">
 <table class ="vertical">
 	<tr>
 		<th>너비(px)</th>
@@ -46,34 +47,63 @@
 	</tr>
 	<tr>
 		<th>버튼 간격</th>
-		<td></td>
+		<td>
+		<div>좌우 간격 : <input type="range" min="0" max="50" value="0" name="leftright"></div>
+				<div>상하 간격 : <input type="range" min="0" max="50" value="0" name="topbottom"></div>
+		</td>
 	</tr>
 	<tr>
 		<th>아이콘</th>
-		<td>
-		<label><input type="radio" name ="rb" value="female" />없음</label>
-		<label><input type="radio" name ="rb" value="male" />이미지</label>
-			
-		</td>
+			<td>
+				<input type="radio" name="icon" value="none" checked> 없음
+				<input type="radio" name="icon" value="fa-solid fa-house"> <i class="fa-solid fa-house"></i>
+				<input type="radio" name="icon" value="fa-solid fa-image"> <i class="fa-solid fa-image"></i></span>
+				<input type="radio" name="icon" value="fa-solid fa-location-dot"> <i class="fa-solid fa-location-dot"></i></span>
+				<input type="radio" name="icon" value="fa-brands fa-github"> <i class="fa-brands fa-github"></i>
+				<input type="radio" name="icon" value="fa-solid fa-paperclip"> <i class="fa-solid fa-paperclip"></i>
+			</td>
 	</tr>
 	<tr>
 		<th>테두리</th>
 		<td>
-		<select name="sel1">
-				<option value="1">감추기</option>
-				<option value="2">보이기</option>		
+		<div>
+		<select name="sel1" id = "border" >
+				<option value="n">감추기</option>
+				<option value="y">보이기</option>		
 		</select>
+		</div>
+		<div id ="border-show">
+			<div>두께(px) : <input type="number" name ="border-thick" /></div>
+			<div>색상 : <input type="color" name ="border-color" /></div>
+			<div>스타일 : 
+			<select name="sel2">
+				<option value="1">실선</option>
+				<option value="2">쇄선</option>		
+				<option value="3">점선</option>		
+		</select></div>
+		<div>모서리 : <input type="number" name ="corner" /></div>
+		</div>
 		</td>
 		
-			두께(px) : <input type="text" name = "enrp"/>
 			
 		
 	</tr>
 
 </table>
-<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script>
 
+<div><input type="submit" value ="만들기" /></div>
+</form>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+<script>
+	$('#border-show').hide();
+	$('#border').change(function(){
+		if($(this).val() =="y"){
+			$('#border-show').show();
+		}else {
+			$('#border-show').hide();
+		}
+	});
 </script>
 </body>
 </html>

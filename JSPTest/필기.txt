@@ -199,7 +199,18 @@ session $ application
 
 
 
-파일 업로드 
+파일 업로드/다운로드
 
+단일 파일 업로드
+- "ex19_form.jsp"
+- "ex19_ok.jsp"
 
+다중 파일 업로드
+- "ex20_form.jsp"
+- "ex20_ok.jsp"
+
+이미지뷰어
+- "ex21.jsp"
+- "ex21_ok.jsp"
+- "ex21_del.jsp"
 

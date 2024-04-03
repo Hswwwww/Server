@@ -1,0 +1,143 @@
+<%@page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy"%>
+<%@page import="com.oreilly.servlet.MultipartRequest"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+
+	request.setCharacterEncoding("UTF-8");
+
+
+
+/*
+
+		<form method ="POST" action="ex19_ok.jsp" enctype ="multipart/form-data">
+		- request.getParameter() > 동작 불능
+		- request.getParameterValues() > 동작 불능
+		
+		enctype 에 맞게 수정 해야 함 > cos.jar라이브러리 사용! > MultipartRequest 클래스를 request를 대신한다.
+		
+		MultipartRequest
+		1. 기존의 request 객체를 Wrapping한 객체
+		2. 파일 업로드 처리 구현
+		
+		
+		
+
+*/
+	
+	//String txt = request.getParameter("txt");
+	//String num = request.getParameter("num");
+	
+	// 업로드된 파일을 저장할 경로 > 로컬 경로 사용(드라이브명으로 시작)
+	//String path ="C:\\class\\code\\server\\JSPTest\\src\\main\\webapp\\files";
+	
+	String path = application.getRealPath("/files");
+
+	//System.out.println(path);
+    //C:\class\code\server\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\JSPTest\files > 톰캣이 쓰는 경로..
+    
+    // 톰캣은 컴파일 해서(실행될때) 나온 클래스를 실행하는 것이 역할 > 그 모든 관리를 저 경로에 카피해서 살림차림.
+    // 이클립스는 파일이 들어오면 계속 새로고침 해줘야 하는 불편함이 있어 톰캣 경로(이클립스랑 상관 x) 를 이용해 바로바로 인식이 가능하도록 함...!
+    
+    
+    // 업로드 파일의 최대 크기 지정
+    // - 바이트 단위 
+    int size = 1024 * 1024 * 100; //100MB
+    
+    //변수 선언
+    String txt =""; 		// 문자
+    String num = "";		// 숫자
+    String filename ="";	// 첨부파일명
+    String orgfilename=""; 	// 첨부파일명
+    
+    try{
+    		
+    	// 첨부파일 > 외부 입출력 > 예외처리 필수!!
+    	// MultipartRequest 객체 생성 == 첨부 파일 처리 완료!
+    	
+    	MultipartRequest multi = new MultipartRequest(
+    				request, //원래 request
+    				path,    //업로드 위치
+    				size,   // 최대 크기
+    				"UTF-8", //인코딩
+    				new DefaultFileRenamePolicy() // 같은파일 자동으로 이름 고쳐줌 > 파일명(1), (2) 같은...
+    				);
+    	
+    	// 일반 데이터 수신
+    	txt = multi.getParameter("txt");
+    	num = multi.getParameter("num");
+    	
+    	// 업로드 파일명
+    	// <input type="file" name="attach" />
+    	
+    	//하드디스크에 저장될 실제 파일명
+    	filename = multi.getFilesystemName("attach");
+    	
+    	//업로드한 원본 파일명
+    	orgfilename = multi.getOriginalFileName("attach");
+    	
+    	
+    }catch(Exception e){
+    	e.printStackTrace();
+    }
+    
+%>
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="http://pinnpublic.dothome.co.kr/cdn/example-min.css">
+<style>
+
+</style>
+</head>
+<body>
+<!- ->
+<h1>결과</h1>
+
+ 	<div>문자 : <%=txt %></div> 
+	<div>숫자 : <%=num %></div> 
+	<div>파일명 : <%=filename %></div> 
+	<div>리얼파일명 : <%=orgfilename %></div>
+	
+	 
+<h2>파일 다운르도</h2> <!-- 3가지 방법!! -->
+
+<!--
+	첫번째 방법
+	장점 : 간단함
+	단점 : 파일명이 다를 수도 있음
+		   브라우저가 해석 가능한 파일은 실행한다...
+  -->
+<div>
+	<a href="/jsp/files/<%=filename%>"><%=orgfilename %></a>
+</div>
+<!--
+	두번째 방법
+	장점 : 간단함, 모든 파일을 다운로드
+	단점 : 파일명이 보장 X
+	
+  -->
+<div>
+	<a href="/jsp/files/<%=filename%>"download><%=orgfilename %></a> <!--  /jsp/files/ 이거 톰캣 가리키는 거임 !! -->
+</div>
+<!--
+	세번째 방법
+	장점 : 무난 처리
+	단점 : download.jsp 작성 비용 발생
+	
+  -->
+<div>
+	<a href="download.jsp?filename=<%=filename %>&orgfilename=<%=orgfilename%>"><%=orgfilename %></a>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script>
+
+</script>
+</body>
+</html>
