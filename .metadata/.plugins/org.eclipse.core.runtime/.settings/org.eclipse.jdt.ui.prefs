@@ -6,6 +6,7 @@ java_single_line_comment=0,128,192
 org.eclipse.jdt.internal.ui.navigator.layout=2
 org.eclipse.jdt.internal.ui.navigator.librariesnode=true
 org.eclipse.jdt.ui.formatterprofiles.version=22
+org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates><template autoinsert\="false" context\="java-statements" deleted\="false" description\="try catch block" enabled\="true" id\="org.eclipse.jdt.ui.templates.try" name\="try_catch">try {\r\n    ${line_selection}${cursor}\r\n} catch (${Exception} ${exception_variable_name}) {\r\n    System.out.println("${primary_type_name}.${enclosing_method}");\r\n    e.printStackTrace();\r\n}</template></templates>
 spelling_ignore_ampersand_in_properties=true
 spelling_ignore_digits=true
 spelling_ignore_java_strings=true

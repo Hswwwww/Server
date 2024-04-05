@@ -1,0 +1,25 @@
+새 프로젝트
+- "MVCTest" > "mvc" + web.xml(o)
+
+
+1. Servlet
+2. JSP
+3. Servlet + JSP
+
+Servlet
+- 장점 : 자바 기반
+- 단점 : 클라이언트 코드 불편
+
+JSP 
+- 장점 : HTML 기반
+- 단점 : 자바 코드 불편
+
+Servlet + JSP > 코드 분리(****)
+- 자바코드 > Servlet에서 작성
+- 클라이언트 코드 > JSP에서 작성
+
+JSP Model 1 > 자바코드 + 클라이언트 코드 > 1장의 JSP 페이지에서 작성하는 방식
+JSP Model 2 > 디자인 패턴(MVC) > 서블릿 + JSP
+
+페이지의 흐름
+servlet (DB 작업 or 가공) > JSP (Servlet에서 받은 값 이용해서) > 브라우저로 출력  
