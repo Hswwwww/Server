@@ -12,3 +12,13 @@ create table tblTodo(
 
 create sequence seqTodo;
 
+select * from tblTodo;
+
+delete from tblTodo;
+commit;
+
+update tblTodo set state = 'y' where seq in(37,39);
+
+select a.* from (select * from tblTodo where state = 'n' order by seq desc) a
+union
+select b.* from (select * from tblTodo where state = 'y' order by seq desc) b;

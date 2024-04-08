@@ -1,6 +1,6 @@
 package com.test.todo.test;
 
-import com.test.java.model.TodoDAO;
+import com.test.todo.model.TodoDAO;
 
 public class TodoDAOTest {
 	

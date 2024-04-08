@@ -8,8 +8,8 @@ import org.junit.Ignore;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.test.java.model.TodoDAO;
-import com.test.java.model.TodoDTO;
+import com.test.todo.model.TodoDAO;
+import com.test.todo.model.TodoDTO;
 
 class DAOTest {
 	
@@ -28,7 +28,7 @@ class DAOTest {
 	@Test
 	void testListTodo() {
 		TodoDAO dao = new TodoDAO();
-		ArrayList<TodoDTO>list = dao.list();
+		ArrayList<TodoDTO>list = dao.list("n");
 		
 		
 		assertNotNull(list);
