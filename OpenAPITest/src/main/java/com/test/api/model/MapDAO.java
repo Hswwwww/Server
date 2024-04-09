@@ -6,12 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
 import com.test.util.DBUtil;
 
 public class MapDAO {
 
-	
 	private Connection conn;
 	private Statement stat;
 	private PreparedStatement pstat;
@@ -20,21 +18,20 @@ public class MapDAO {
 	public MapDAO() {
 		this.conn = DBUtil.open();
 	}
-	
-	
-	public ArrayList<MarkerDTO> list(){
+
+	public ArrayList<MarkerDTO> list() {
 		
 		try {
 			
-			//ResultSet > (복사) > ArrayList<MarkerDTO>
-			ArrayList<MarkerDTO>list = new ArrayList<MarkerDTO>();
+			//ResultSet > (복사) > ArrayList<MarkerDTO> 
+			ArrayList<MarkerDTO> list = new ArrayList<MarkerDTO>();
 			
 			String sql = "select * from tblMarker";
 			
 			stat = conn.createStatement();
 			rs = stat.executeQuery(sql);
 			
-			while(rs.next()) {
+			while (rs.next()) {
 				MarkerDTO dto = new MarkerDTO();
 				dto.setSeq(rs.getString("seq"));
 				dto.setLat(rs.getString("lat"));
@@ -45,27 +42,41 @@ public class MapDAO {
 			return list;
 			
 		} catch (Exception e) {
-			System.out.println("TodoDAO.list");
+			System.out.println("MapDAO.list");
 			e.printStackTrace();
 		}
 		
 		return null;
 	}
-	
-	
+
 	public void add(MarkerDTO dto) {
+		
 		try {
 			
-			String sql ="insert into tblMarker values (seqMarker.nextVal,?,?)";
+			String sql = "insert into tblMarker values (seqMarker.nextVal, ?, ?)";
 			
 			pstat = conn.prepareStatement(sql);
-			pstat.setString(dto.getLat());
-			pstat.setString(dto.getLng());
+			pstat.setString(1, dto.getLat());
+			pstat.setString(2, dto.getLng());
 			
+			pstat.executeUpdate();
 			
 		} catch (Exception e) {
 			System.out.println("MapDAO.add");
 			e.printStackTrace();
 		}
+		
 	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+

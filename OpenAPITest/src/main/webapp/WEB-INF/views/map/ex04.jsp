@@ -99,7 +99,19 @@
 		//지도 이벤트(줌 인/아웃)
 		kakao.maps.event.addListener(map, 'zoom_changed', function(evt) {
 			
+		 countMarker();
+		});
+		
+		//지도 이벤트(드래그)
+		kakao.maps.event.addListner(map,'draged',function(evt)){
+			countMarker();
+		});
+			
+		
+			
 			//$('.message').text(map.getLevel());
+			
+			function countMarker(){
 			mcount = 0;
 			
 			$(mlist).each((index, item) => {
@@ -111,7 +123,7 @@
 			});
 			
 			$('.message').text(mcount);
-			
+			}			
 		});
 		
 		
