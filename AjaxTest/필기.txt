@@ -19,11 +19,22 @@ Ajax, Asynchronous JavaScript and XML
 - com.test.ajax > "Ex01.java"
 				> "Ex02.java"
 				> "Ex03.java"			
-				> "Ex03Data.java"				
+				> "Ex03Data.java"
+				
+				> "Ex04.java"			
+				> "Ex04Data.java"		
+				
+				> "Ex05.java"
+						
 - com.test.ajax.model > "SurveyDTO.java"
 - views > "ex01.jsp"
 		> "ex02.jsp"
 		> "ex03.jsp"
+		
+		> "ex04.jsp"
+		
+		> "ex05.jsp"
+		> "ex05check.jsp"
 
  
  
@@ -34,9 +45,7 @@ Ajax, Asynchronous JavaScript and XML
  
  
  
- 
- 
- 
+
  
  
  

@@ -47,5 +47,78 @@
   	<url-pattern>/ex03data.do</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+  	<servlet-name>ex04</servlet-name>
+  	<servlet-class>com.test.ajax.Ex04</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex04</servlet-name>
+  	<url-pattern>/ex04.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+  	<servlet-name>ex04data</servlet-name>
+  	<servlet-class>com.test.ajax.Ex04Data</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex04data</servlet-name>
+  	<url-pattern>/ex04data.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+  	<servlet-name>ex05</servlet-name>
+  	<servlet-class>com.test.ajax.Ex05</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex05</servlet-name>
+  	<url-pattern>/ex05.do</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+  	<servlet-name>ex05check</servlet-name>
+  	<servlet-class>com.test.ajax.Ex05Check</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex05check</servlet-name>
+  	<url-pattern>/ex05check.do</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+  	<servlet-name>ex06</servlet-name>
+  	<servlet-class>com.test.ajax.Ex06</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex06</servlet-name>
+  	<url-pattern>/ex06.do</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+  	<servlet-name>ex06check</servlet-name>
+  	<servlet-class>com.test.ajax.Ex06Check</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex06check</servlet-name>
+  	<url-pattern>/ex06check.do</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+  	<servlet-name>ex07</servlet-name>
+  	<servlet-class>com.test.ajax.Ex07</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex07</servlet-name>
+  	<url-pattern>/ex07.do</url-pattern>
+  </servlet-mapping>
+  
+     <servlet>
+  	<servlet-name>ex07check</servlet-name>
+  	<servlet-class>com.test.ajax.Ex07Check</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>ex07check</servlet-name>
+  	<url-pattern>/ex07check.do</url-pattern>
+  </servlet-mapping>
+  
+  
   
 </web-app>

@@ -23,7 +23,7 @@
 	<div><input type="button" value ="확인하기" id="btn1" /></div>
 	
 	<hr />
-	<div class= "message" />${count}</div>
+	<xmp class= "message" />${count}</xmp>
 	
 	<hr />
 	
@@ -61,7 +61,7 @@ $('#btn1').click(()=> {
 				   
 				   //서버가 돌려준 데이터
 				   $('.message').append(ajax.responseText);
-				   
+				   //alert(ajax.responseText );
 				   
 			   }
 		  
@@ -77,8 +77,9 @@ $('#btn1').click(()=> {
 
 		
 		//<form method = "GET" action ="/ajax/ex03.txt">
-		  ajax.open('GET','/ajax/ex03.txt');// 호출을 할 서버측 주소 // 연결(x) , 설정(0)
+		  ajax.open('GET','/ajax/ex01.do');// 호출을 할 서버측 주소 // 연결(x) , 설정(0)
 		
+		 
 		  ajax.send();  // 실제 요청 + 서버와 연결 > 전송 버튼 or 링크 클릭
 		
 		
