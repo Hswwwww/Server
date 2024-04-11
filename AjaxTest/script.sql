@@ -19,9 +19,52 @@ select * from tblSurvey;
 
 
 update tblSurvey set
-    cnt1 = 10,
-    cnt2 = 4,
-    cnt3 = 1,
-    cnt4 = 3
+    cnt1 = 5,
+    cnt2 = 8,
+    cnt3 = 5,
+    cnt4 = 7
         where seq = 1;
 commit;
+
+
+
+select * from tblUser;
+
+
+create table zipcode  (
+   seq                  NUMBER(10)  not null,
+   zipcode              VARCHAR2(50),
+   sido                 VARCHAR2(50),
+   gugun                VARCHAR2(50),
+   dong                 VARCHAR2(50),
+   bunji                VARCHAR2(50),
+   constraint PK_ZIPCODE primary key (seq)
+);
+
+
+select * from zipcode;
+
+--고양이 좌표
+
+create table tblCat(
+    catid varchar(50) primary key,
+    x number not null,
+    y number not null
+);
+
+select * from tblCat;
+
+select max(to_number(substr(catid,4))) as m from tblCat;
+
+select * from tblAddress;
+
+drop table tblAddress;
+
+create table tblAddress(
+    seq number primary key,
+    name varchar2(30) not null,
+    age number(3) not null,
+    gender char(1) not null,
+    address varchar2(300) not null
+
+);
