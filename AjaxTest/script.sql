@@ -68,3 +68,7 @@ create table tblAddress(
     address varchar2(300) not null
 
 );
+
+create sequence seqAddress;
+
+select * from tblAddress;
