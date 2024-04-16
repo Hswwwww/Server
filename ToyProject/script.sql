@@ -57,7 +57,8 @@ select
         else
             to_char(regdate, 'yyyy-mm-dd')
     end regdate,
-    (sysdate-regdate)as isnew
+    (sysdate-regdate)as isnew,
+    content
 from tblBoard 
     order by seq desc;
 
@@ -70,5 +71,23 @@ update tblBoard set regdate = regdate-2
  update tblBoard set regdate = regdate-1
     where seq=9;
     
+
+select * from(select a.*, rownum as rnum from vwBoard a)
+    where rnum between 1 and 10;
+
+
+
+commit;
+
+-- 댓글 테이블
+create table tblComment(
+    seq number primary key,                             --번호(PK)
+    content varchar2(2000) not null,                    --댓글
+    id varchar2(50) not null references tblUser(id),    --아이디(FK)
+    regdate date default sysdate not null,              --작성날짜
+    bseq  number not null references tblBoard(seq)      --부모글(FK)
+
+);
     
-    
+create sequence seqComment;
+

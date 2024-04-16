@@ -76,10 +76,16 @@
 			-"Add.java"
 			-"Edit.java"
 			-"Del.java"
+			-"Auth.java"
+			-"Dummy.java"
 		- "com.test.toy.board.repository"
 			-"BoardDAO.java"
 		- "com.test.toy.board.model"
 			-"BoardDTO.java"
+			-"CommentDTO.java"
+		- "com.test.toy.board.data"
+			-"AddComment.java"
+		
 	
 	- 페이지
 		- views > "board"
@@ -91,6 +97,7 @@
 	- 패키지
 		- "com.test.toy.filter"
 			-"EncodingFilter.java"
+			-"AuthFilter.java"
 	
 질의 패턴
 - 매개변수 유/무
@@ -117,6 +124,8 @@ queryParamListReturn
 - 수정하기, 삭제하기 > 인증(0) > 본인만 가능
 - 수정하기, 삭제하기 > 관리자(모든글에 가능)
 
+
+페이징
 
 
 

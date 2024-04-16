@@ -51,4 +51,41 @@
 	
 }
 
+#view tr:nth-child(4){
+	height :200px;
+	
+}
 
+#view tr:nth-child(3) td{
+	word-break : break-all; 
+	/* 강제 줄바꿈 */
+}
+
+
+/* 검색 폼 */
+
+#searchForm{
+	margin-bottom: 15px;
+	text-align: center;
+		
+}
+
+
+#tableSearchResult{
+	margin: .5rem;
+	
+}
+
+
+#pagebar{
+	text-align:center;
+	margin-bottom: 15px;
+	
+}
+
+#comment td:nth-child(1){width:auto;}
+#comment td:nth-child(2){width:150px; text-align:center;}
+#comment .commentContent div:last-child {font-size:12px; text-align:right;}
+
+#addComment td:nth-child(1){width:auto;}
+#addComment td:nth-child(2){width:150px; text-align:center;}
