@@ -58,9 +58,11 @@ select
             to_char(regdate, 'yyyy-mm-dd')
     end regdate,
     (sysdate-regdate)as isnew,
-    content
+    content,
+    (select count(*)from tblComment where bseq = tblBoard.seq) as commentCount,
+    depth
 from tblBoard 
-    order by seq desc;
+    order by thread desc;
 
 select * from vwBoard;
 
@@ -91,3 +93,84 @@ create table tblComment(
     
 create sequence seqComment;
 
+select * from tblComment;
+
+
+select a.*,(select name from tblUser where id = a.id) as name from tblComment a;
+
+drop table tblComment;
+drop table tblBoard;
+
+
+
+-- 게시판(+답변)
+create table tblBoard(
+
+    seq number primary key,
+    subject varchar2(300) not null,
+    content varchar2(4000) not null,
+    id varchar2(50) not null references tblUser(id),
+    regdate date default sysdate not null,
+    readcount number default 0 not null,
+    thread number not null,                    -- 답변형(정렬)
+    depth number not null                      -- 답변형(출력)
+);
+
+select * from tblBoard;
+
+select * from
+(select b.*, rownum as rnum from
+(select a.*,(select name from tblUser where id = a.id) as name
+from tblComment a where bseq = 282 order by seq desc)b)
+    where rnum between 1 and 10;
+    
+    commit;
+    
+delete from tblComment;
+
+delete from tblBoard;
+
+commit;
+
+
+
+drop table tblComment;
+drop table tblBoard;
+
+
+
+-- 게시판(+첨부파일)
+create table tblBoard(
+
+    seq number primary key,
+    subject varchar2(300) not null,
+    content varchar2(4000) not null,
+    id varchar2(50) not null references tblUser(id),
+    regdate date default sysdate not null,
+    readcount number default 0 not null,
+    thread number not null,                    -- 답변형(정렬)
+    depth number not null,                      -- 답변형(출력)
+    attach varchar2(100) null               -- 첨부파일
+    
+);
+
+-- 게시물 1개 <- N : N -> 해시태그 1개
+
+-- 해시태그
+create table tblHashtag(
+    seq number primary key,                             -- 번호(PK)
+    tag varchar2(100) unique not null                   -- 해시태그(UQ)
+);
+
+create sequence seqHashtag;
+
+-- 연결
+create table tblTagging(
+    seq number primary key,                                  -- 번호(PK)
+    bseq number not null references tblBoard(seq),           --글번호(FK)       
+    hseq number not null references tblHashtag(seq)          --태그번호(FK)
+  
+);      
+create sequence seqTagging;
+select * from tblTagging;
+select * from tblHashtag;

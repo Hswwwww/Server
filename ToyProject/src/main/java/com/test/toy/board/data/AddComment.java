@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+
 import com.test.toy.board.model.CommentDTO;
 import com.test.toy.board.repository.BoardDAO;
-
 
 @WebServlet("/board/addcomment.do")
 public class AddComment extends HttpServlet {
@@ -39,12 +40,26 @@ public class AddComment extends HttpServlet {
 		
 		int result = dao.addComment(dto);
 		
+		//방금 작성한 댓글 가져오기
+		CommentDTO dto2 = dao.getComment();
+		
 		resp.setContentType("application/json");
 		
+		JSONObject obj = new JSONObject();
+		obj.put("result", result);
+		
+		JSONObject subObj = new JSONObject();
+		subObj.put("seq", dto2.getSeq());
+		subObj.put("content", dto2.getContent());
+		subObj.put("name", dto2.getName());
+		subObj.put("id", dto2.getId());
+		subObj.put("regdate", dto2.getRegdate());
+		
+		obj.put("dto", subObj);
+		
+		resp.setCharacterEncoding("UTF-8");
 		PrintWriter writer = resp.getWriter();
-		writer.print("{");
-		writer.print("\"result\": " + result); //"result": 1
-		writer.print("}");
+		writer.print(obj);
 		writer.close();
 
 	}
@@ -52,6 +67,21 @@ public class AddComment extends HttpServlet {
 }
 
 
+
+
+		
+//		{
+//			"result" :1,
+//			"dto": {
+//				"seq" : 10,
+//				"content" : " 댓글내용",
+//				"name": 홍길동,
+//				"id" : "hong"
+//					"regdate" : 
+//				}
+//		}
+		
+		
 
 
 

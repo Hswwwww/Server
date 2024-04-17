@@ -16,5 +16,12 @@ public class BoardDTO {
 	private String name; // 작성자
 	private double isnew; //최신글
 	// 해당 컬럽에 없더라도 그냥 넣어줘도 됨.. 너무 이상하지만 않다면
+	private String commentcount; //댓글 수
+	
+	// 추가하고 list가서 넘겨주기...
+	
+	private int thread;		//답변형
+	private int depth;	
 
+	private String attach; // 첨부파일
 }
