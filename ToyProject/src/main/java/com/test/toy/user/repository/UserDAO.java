@@ -4,7 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.HashMap;
 
+import com.test.toy.user.model.LogDTO;
 import com.test.toy.user.model.UserDTO;
 import com.test.util.DBUtil;
 
@@ -16,10 +19,10 @@ public class UserDAO {
 	private ResultSet rs;
 
 	public UserDAO() {
-		this.conn = DBUtil.open("localhost","toy","java1234");
+		this.conn = DBUtil.open("localhost", "toy", "java1234");
 	}
 
-public int register(UserDTO dto) {
+	public int register(UserDTO dto) {
 		
 		//queryParamNoReturn
 		try {
@@ -44,8 +47,7 @@ public int register(UserDTO dto) {
 		return 0;
 	}
 
-
-public UserDTO login(UserDTO dto) {
+	public UserDTO login(UserDTO dto) {
 		
 		//queryParamDTOReturn
 		try {
@@ -64,7 +66,10 @@ public UserDTO login(UserDTO dto) {
 				
 				result.setName(rs.getString("name"));
 				result.setLv(rs.getString("lv"));
-			
+				
+//				result.setEmail(rs.getString("email"));
+//				result.setPic(rs.getString("pic"));
+//				result.setRegdate(rs.getString("register"));
 				
 				return result;	
 			}	
@@ -76,64 +81,156 @@ public UserDTO login(UserDTO dto) {
 		return null;
 	}
 
-public int unregister(String id) {
-	//queryParamNoReturn
-	try {
-
-		String sql = "update tblUser set pw='0000', name='탈퇴', email='탈퇴', pic = default, intro = null, ing = 0 where id=?";		
-
-		pstat = conn.prepareStatement(sql);
-		pstat.setString(1, id);
-
-		return pstat.executeUpdate();
-
-	} catch (Exception e) {
-		System.out.println("UserDAO.unregister");
-		e.printStackTrace();
-	}
-
-	return 0;
-}
-
-public UserDTO getUser(String id) {
-	//queryParamDTOReturn
-	try {
+	public int unregister(String id) {
 		
-		String sql="select * from tblUser where id =?";
-		
-		pstat = conn.prepareStatement(sql);
-				
-		pstat.setString(1, id);
-		rs = pstat.executeQuery();
-		
-		if(rs.next()) {
-			
-			UserDTO dto = new UserDTO();
-			
-			dto.setId(rs.getString("id"));
-			dto.setName(rs.getString("name"));
-			dto.setEmail(rs.getString("email"));
-			dto.setLv(rs.getString("lv"));
-			dto.setIntro(rs.getString("intro"));
-			dto.setPic(rs.getString("pic"));
-			dto.setRegdate(rs.getString("regdate"));
-			
-			
-			return  dto;
+		//queryParamNoReturn
+		try {
+
+			String sql = "update tblUser set pw = '0000', name = '탈퇴', email = '탈퇴', pic = default, intro = null, ing = 0 where id = ?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, id);
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("UserDAO.unregister");
+			e.printStackTrace();
 		}
 		
-		
-		
-		
-	} catch (Exception e) {
-		System.out.println("UserDAO.register");
-		e.printStackTrace();
+		return 0;
 	}
-	return null;
+
+	public UserDTO getUser(String id) {
+		
+		//queryParamDTOReturn
+		try {
+			
+			String sql = "select * from tblUser where id = ?";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, id);
+			
+			rs = pstat.executeQuery();
+			
+			if (rs.next()) {
+				
+				UserDTO dto = new UserDTO();
+				
+				dto.setId(rs.getString("id"));
+				dto.setName(rs.getString("name"));
+				dto.setEmail(rs.getString("email"));
+				dto.setLv(rs.getString("lv"));
+				dto.setIntro(rs.getString("intro"));
+				dto.setPic(rs.getString("pic"));
+				dto.setRegdate(rs.getString("regdate"));
+				
+				return dto;				
+			}	
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
+	public void addLog(LogDTO ldto) {
+		
+		//queryParamNoReturn
+		try {
+
+			String sql = "insert into tblLog (seq, id, regdate) values (seqLog.nextVal, ?, default)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, ldto.getId());
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("UserDAO.addLog");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void addLog(String id, String regdate) {
+		
+		//queryParamNoReturn
+		try {
+
+			String sql = "insert into tblLog (seq, id, regdate) values (seqLog.nextVal, ?, ?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, id);
+			pstat.setString(2, regdate);
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("UserDAO.addLog");
+			e.printStackTrace();
+		}
+		
+	}
+
+	public ArrayList<HashMap<String, String>> loadCalendar(HashMap<String, String> map) {
+		
+		//queryParamListReturn
+		
+		try {
+			
+			String sql="select \r\n"
+					+ "    to_char(regdate, 'yyyy-mm-dd') as regdate,\r\n"
+					+ "    count(*) as cnt,\r\n"
+					+ "    (select count(*) from tblBoard \r\n"
+					+ "        where to_char(regdate,'yyyy-mm-dd')= to_char(a.regdate,'yyyy-mm-dd')) as bcnt,\r\n"
+					+ "   (select count(*) from tblComment \r\n"
+					+ "        where to_char(regdate,'yyyy-mm-dd')= to_char(a.regdate,'yyyy-mm-dd')) as ccnt\r\n"
+					+ "    from tblLog a\r\n"
+					+ "        where to_char(regdate, 'yyyy-mm') = ? and a.id =? \r\n"
+					+ "    group by to_char(regdate, 'yyyy-mm-dd')";
+			
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, String.format("%s-%02d"
+							,map.get("year")
+							,Integer.parseInt(map.get("month"))));
+			pstat.setString(2, map.get("id"));
+			
+			rs = pstat.executeQuery();
+			
+			ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+			
+			
+			while(rs.next()) {
+				
+				HashMap<String,String> m = new HashMap<String,String>();
+				
+				m.put("regdate", rs.getString("regdate"));
+				m.put("cnt", rs.getString("cnt"));
+				m.put("bcnt", rs.getString("bcnt"));
+				m.put("ccnt", rs.getString("ccnt"));
+				
+				list.add(m);
+			}
+			
+			return list;
+			
+			
+			
+		} catch (Exception e) {
+			System.out.println("UserDAO.register");
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+
 }
 
-	
-}
+
+
+
 
 
 

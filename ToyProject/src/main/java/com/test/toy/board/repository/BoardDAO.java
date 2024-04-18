@@ -27,7 +27,7 @@ public class BoardDAO {
 		//queryParamNoReturn
 		try {
 
-			String sql = "insert into tblBoard (seq, subject, content, id, regdate, readcount, thread, depth ,attach) values (seqBoard.nextVal, ?, ?, ?, default, default, ?, ?,?)";
+			String sql = "insert into tblBoard (seq, subject, content, id, regdate, readcount, thread, depth ,attach, secret) values (seqBoard.nextVal, ?, ?, ?, default, default, ?, ?,?,?)";
 
 			pstat = conn.prepareStatement(sql);
 			pstat.setString(1, dto.getSubject());
@@ -36,6 +36,35 @@ public class BoardDAO {
 			pstat.setInt(4, dto.getThread());
 			pstat.setInt(5, dto.getDepth());
 			pstat.setString(6, dto.getAttach());
+			pstat.setString(7,dto.getSecret());
+			
+
+			return pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.add");
+			e.printStackTrace();
+		}
+		
+		return 0;
+	}
+
+	
+public int add(BoardDTO dto, String regdate) {
+		
+		//queryParamNoReturn
+		try {
+
+			String sql = "insert into tblBoard (seq, subject, content, id, readcount, thread, depth, attach, secret, regdate) values (seqBoard.nextVal, ?, ?, ?, default, ?, ?, ?,?,to_date(?, 'yyyy-mm-dd hh24:mi:ss'))";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, dto.getSubject());
+			pstat.setString(2, dto.getContent());
+			pstat.setString(3, dto.getId());
+			pstat.setInt(4, dto.getThread());
+			pstat.setInt(5, dto.getDepth());
+			pstat.setString(6, dto.getAttach());
+			pstat.setString(7,dto.getSecret());
+			pstat.setString(8, regdate);
 			
 
 			return pstat.executeUpdate();
@@ -68,14 +97,24 @@ public class BoardDAO {
 										, map.get("word"));
 			}
 			
-			String sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s"
+String sql = ""; 
+			// 태그 있을때
+			if (map.get("tag") == null) {
+				sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) where rnum between %s and %s"
 										, where
 										, map.get("begin")
 										, map.get("end"));
+			} else {
+				// 태그 없을때 실행하는 sql
+				sql = String.format("select * from (select a.*, rownum as rnum from vwBoard a %s) b inner join tblTagging t on b.seq = t.bseq inner join tblHashtag h on h.seq = t.hseq where rnum between %s and %s and h.tag = '%s'", where
+			   , map.get("begin")
+			   , map.get("end")
+			   , map.get("tag"));
+			}
 			
 			stat = conn.createStatement();
 			rs = stat.executeQuery(sql);
-			
+
 			ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
 			
 			while (rs.next()) {
@@ -94,6 +133,7 @@ public class BoardDAO {
 				dto.setCommentcount(rs.getString("commentcount"));
 				
 				dto.setDepth(rs.getInt("depth"));
+				dto.setSecret(rs.getString("secret"));
 				
 				list.add(dto);			
 			}	
@@ -137,12 +177,34 @@ public class BoardDAO {
 				//dao.get(seq)
 				dto.setAttach(rs.getString("attach"));
 				
+				
+				//해시 태그
+				sql = "select h.tag from tblBoard b"
+						+ "    inner join tblTagging t"
+						+ "        on b.seq = t.bseq"
+						+ "            inner join tblHashtag h"
+						+ "                on h.seq = t.hseq"
+						+ "                    where b.seq = ?";
+				
+				pstat = conn.prepareStatement(sql);
+				pstat.setString(1, seq);
+				rs = pstat.executeQuery();
+				
+				ArrayList<String> tlist = new ArrayList<String>();
+				
+				while (rs.next()) {
+					tlist.add(rs.getString("tag"));
+				}
+				
+				dto.setTag(tlist);
+				
 				return dto;				
 			}	
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		
 		
 		return null;
@@ -197,6 +259,12 @@ public class BoardDAO {
 			String sql = "";
 			
 			sql = "delete from tblComment where bseq = ?";
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, seq);
+			pstat.executeUpdate();
+			
+
+			sql = "delete from tblTagging where bseq = ?";
 			pstat = conn.prepareStatement(sql);
 			pstat.setString(1, seq);
 			pstat.executeUpdate();
@@ -483,7 +551,7 @@ public class BoardDAO {
 		
 	}
 
-	public boolean exisHashtag(String tagName) {
+	public boolean existHashtag(String tagName) {
 		
 		//queryParamTokenReturn
 		
@@ -572,6 +640,57 @@ public class BoardDAO {
 
 		} catch (Exception e) {
 			System.out.println("BoardDAO.addTagging");
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public boolean existTagging(HashMap<String, String> map) {
+		
+		//queryParanTokenReturn
+	
+		try {
+
+			String sql = "select count(*) as cnt from tblTagging where bseq = ? and hseq =?";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("hseq"));
+			
+
+			rs = pstat.executeQuery();
+
+			if (rs.next()) {
+				return rs.getInt("cnt")==0 ? true: false;
+			}
+
+			
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.existTagging");
+			e.printStackTrace();
+		}
+		
+		return false;
+	}
+
+	public void delTagging(HashMap<String, String> map) {
+		
+		//queryParamNoReturn
+		
+		try {
+
+			String sql = "delete from tblTagging where bseq = ? and hseq = (select seq from tblHashtag where tag =?)";
+
+			pstat = conn.prepareStatement(sql);
+			pstat.setString(1, map.get("bseq"));
+			pstat.setString(2, map.get("tag"));
+
+			pstat.executeUpdate();
+
+		} catch (Exception e) {
+			System.out.println("BoardDAO.delTagging");
 			e.printStackTrace();
 		}
 

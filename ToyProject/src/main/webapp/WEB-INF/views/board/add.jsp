@@ -41,11 +41,19 @@
 	</tr>
 	<tr>
 		<th>태그</th>
-		<td><input type="text" name="tag" id="tag" required class="full"/></td>
+		<td><input type="text" name="tag" id="tag"  class="full"/></td>
 	</tr>
 	<tr>
 		<th>장소</th>
 		<td><input type="file" name="attach" class="full" accept="image/*" /></td>
+	</tr>
+	<tr>
+		<th>비밀글</th>
+		<td>
+			<label style="user-select:none;">
+					<input type="checkbox" name="secret" value ="1" />
+					작성자만 열람이 가능합니다.
+			</label></td>
 	</tr>
 	</table>
 	<div>
@@ -64,10 +72,10 @@
 <script>
 	new Tagify(document.getElementById('tag'));
 	
-	window.onclick= function(){
+	/* window.onclick= function(){
 		//[{"value":"자바"},{"value":"게시판"},{"value":"내용"}]
 		//alert(document.getElementById('tag').value);
-	}
+	} */
 </script>
 </body>
 </html>

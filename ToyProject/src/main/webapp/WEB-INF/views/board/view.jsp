@@ -6,6 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <%@include file="/WEB-INF/views/inc/asset.jsp" %>
+<link rel="stylesheet" href="/toy/asset/css/tagify.css" />
 <style>
 	
 </style>
@@ -53,6 +54,12 @@
 				<th>읽음</th>
 				<td>${dto.readcount}</td>
 			</tr>
+			<c:if test ="${not empty dto.tag }">
+			<tr>
+				<th>태그</th>
+				<td><input id="tag" class="full"  readonly/></td>
+			</tr>
+			</c:if>
 		</table>
 		
 		
@@ -121,7 +128,7 @@
 	</div>
 	
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=15cf559eb8ff6b8a03f2fb0dc6185fc2&libraries=services"></script>
-	
+	<script src="/toy/asset/js/tagify.min.js"></script>
 	<script>
 	
 	$('#btnAddComment').click(() => {
@@ -382,6 +389,25 @@
 	map.panTo(new kakao.maps.LatLng(${lat}, ${lng}));
 
 	</c:if>
+	
+	
+	let taglist = '';
+	<c:forEach items ="${dto.tag}" var ="tag">
+	taglist +='${tag},';
+	</c:forEach>
+	
+	$('#tag').val(taglist);
+	
+	const tagify = new Tagify(document.getElementById('tag'));
+	
+	tagify.on('click', (e) => {
+		//alert(e.detail.data.value);
+		location.href='/toy/board/list.do?tag='+e.detail.data.value;
+		
+	});
+	
+	
+	new Tagify(document.getElementById('tag'));
 </script>
 </body>
 </html>
